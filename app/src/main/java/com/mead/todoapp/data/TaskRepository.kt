@@ -6,7 +6,6 @@ import java.util.UUID
 class TaskRepository(
     private val localDataSource: TaskDao
 ) : ITaskRepository {
-
     override fun getStream(): Flow<List<TaskEntityModel>> {
         return localDataSource.observeAll()
     }
@@ -16,10 +15,12 @@ class TaskRepository(
     }
 
     override suspend fun create(title: String, description: String): UUID {
-        return create(TaskEntityModel(
-            name = title,
-            description = description
-        ))
+        return create(
+            TaskEntityModel(
+                name = title,
+                description = description
+            )
+        )
     }
 
     override suspend fun create(task: TaskEntityModel): UUID {

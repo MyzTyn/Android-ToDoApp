@@ -12,7 +12,7 @@ interface ITaskRepository {
     /**
      * Get the task by ID (UUID)
      */
-    suspend fun getByID(id: UUID) : TaskEntityModel?
+    suspend fun getByID(id: UUID): TaskEntityModel?
 
     /**
      * Create a task
@@ -21,6 +21,7 @@ interface ITaskRepository {
      * @return the ID of the task
      */
     suspend fun create(title: String, description: String): UUID
+
     /**
      * Create a task
      * @param task TaskEntityModel
@@ -50,5 +51,5 @@ interface ITaskRepository {
     /**
      * The size of task
      */
-    suspend fun count() : Int
+    suspend fun count(): Int
 }

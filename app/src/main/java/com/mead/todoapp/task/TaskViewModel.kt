@@ -9,32 +9,21 @@ import com.mead.todoapp.data.TaskDatabase
 import com.mead.todoapp.data.TaskEntityModel
 import com.mead.todoapp.data.TaskRepository
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import java.util.UUID
 
 class TaskViewModel(application: Application) : AndroidViewModel(application) {
-    private val taskRepository : ITaskRepository
+    private val taskRepository: ITaskRepository
     val tasks: StateFlow<List<TaskEntityModel>>
 
     init {
         val taskDao = TaskDatabase.getDatabase(application).taskDao()
         taskRepository = TaskRepository(taskDao)
-        tasks = taskRepository.getStream().stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
-
-        // Check if the database is empty
-        viewModelScope.launch(Dispatchers.IO) {
-            if (taskRepository.count() != 0)
-                return@launch
-
-            // Create some tasks
-            create(TaskEntityModel(name = "Code Review", description = "Check the C# project and give comments"))
-            create(TaskEntityModel(name = "ToDo App", description = "Make the app looks pretty and nice"))
-            create(TaskEntityModel(name = "Hello"))
-        }
+        tasks =
+            taskRepository.getStream().stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
     }
 
     fun create(task: TaskEntityModel) {
@@ -61,8 +50,6 @@ class TaskViewModel(application: Application) : AndroidViewModel(application) {
     fun delete(task: TaskEntityModel) {
         Log.i("TaskViewModel", "delete: ${task.id}")
         viewModelScope.launch(Dispatchers.IO) {
-            // ToDo: Remove the delay then add an animation
-            delay(500)
             taskRepository.delete(task)
         }
     }

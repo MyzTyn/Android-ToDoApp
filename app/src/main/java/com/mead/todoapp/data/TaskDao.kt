@@ -19,7 +19,7 @@ interface TaskDao {
      * Get the task by ID (UUID)
      */
     @Query("SELECT * FROM tasks WHERE id = :id")
-    suspend fun getByID(id: UUID) : TaskEntityModel?
+    suspend fun getByID(id: UUID): TaskEntityModel?
 
     /**
      * Insert or update a task in the database

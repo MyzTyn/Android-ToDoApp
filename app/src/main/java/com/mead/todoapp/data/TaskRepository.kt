@@ -29,16 +29,26 @@ class TaskRepository(
 
     override suspend fun insert(task: TaskEntityModel) {
         if (getByID(task.id) == null)
-            throw Exception("Task (id ${task.id}) not found")
+            throw TaskNotFoundException(task.id)
 
         localDataSource.insertTask(task)
     }
 
+    override suspend fun updateCompletionByID(id: UUID, isCompleted: Boolean) {
+        if (getByID(id) == null)
+            throw TaskNotFoundException(id)
+
+        localDataSource.updateCompletionByID(id, isCompleted)
+    }
+
     override suspend fun delete(task: TaskEntityModel) {
-        localDataSource.deleteTask(task)
+        localDataSource.delete(task)
     }
 
     override suspend fun count(): Int {
         return localDataSource.count()
     }
 }
+
+// Custom Task Exception
+class TaskNotFoundException(id: UUID) : Exception("Task (id ${id}) not found.")

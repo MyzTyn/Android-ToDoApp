@@ -27,11 +27,14 @@ interface TaskDao {
     @Upsert
     suspend fun insertTask(task: TaskEntityModel)
 
+    @Query("UPDATE tasks SET isCompleted = :completion WHERE id = :id")
+    suspend fun updateCompletionByID(id: UUID, completion: Boolean)
+
     /**
      * Delete the task
      */
     @Delete
-    suspend fun deleteTask(task: TaskEntityModel)
+    suspend fun delete(task: TaskEntityModel)
 
     @Query("SELECT COUNT(*) FROM tasks")
     suspend fun count(): Int

@@ -51,6 +51,8 @@ android {
 }
 
 dependencies {
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.lifecycle.runtime.compose.android)
     kapt (libs.androidx.room.room.compiler2)
 
     implementation (libs.androidx.room.runtime)

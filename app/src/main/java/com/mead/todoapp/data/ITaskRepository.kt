@@ -35,6 +35,13 @@ interface ITaskRepository {
     suspend fun insert(task: TaskEntityModel)
 
     /**
+     * Update the task's completion status
+     * @param id UUID
+     * @param isCompleted Boolean
+     */
+    suspend fun updateCompletionByID(id: UUID, isCompleted: Boolean)
+
+    /**
      * Delete the task
      * @param task TaskEntityModel
      */
